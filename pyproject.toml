@@ -1,0 +1,22 @@
+[project]
+name = "playwright-tests"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest-playwright>=0.8",
+]
+
+[tool.uv]
+environments = [
+    "sys_platform == 'win32'",
+    "sys_platform == 'darwin'",
+    "sys_platform == 'linux'",
+]
+
+[tool.pytest.ini_options]
+base_url = "https://automationexercise.com"
