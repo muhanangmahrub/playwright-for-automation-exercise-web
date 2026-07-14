@@ -1,5 +1,6 @@
 from playwright.sync_api import expect, Page
 
+
 def test_add_products_in_cart(page: Page):
     # open the homepage and navigate to the products page
     page.goto("/")
@@ -8,6 +9,7 @@ def test_add_products_in_cart(page: Page):
     expect(page).to_have_url("/products")
 
     # add to cart the first product
+    page.wait_for_load_state("load")
     products = page.locator(".features_items .product-image-wrapper")
     products.first.get_by_text("Add to cart").nth(0).click()
     page.get_by_role("button", name="Continue Shopping").click()
