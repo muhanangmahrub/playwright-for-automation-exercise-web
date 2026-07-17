@@ -23,3 +23,4 @@ environments = [
 
 [tool.pytest.ini_options]
 base_url = "https://automationexercise.com"
+addopts = "--tracing=retain-on-failure"
