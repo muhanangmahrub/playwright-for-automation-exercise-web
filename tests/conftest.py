@@ -1,4 +1,5 @@
 import pytest
+from tests.pages.home_page import HomePage
 
 AD_HOSTS = (
     "googlesyndication.com",
@@ -24,3 +25,10 @@ def block_ads(page):
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
     return {**browser_context_args, "viewport": {"width": 1920, "height": 1080}}
+
+
+@pytest.fixture
+def home(page):
+    home = HomePage(page)
+    home.open()
+    return home

@@ -3,13 +3,9 @@ from playwright.sync_api import expect, Page
 PRODUCT_CARDS = ".features_items .product-image-wrapper"
 
 
-def test_verify_all_products_and_product_detail_page(page: Page):
-    # open the homepage
-    page.goto("/")
-    expect(page).to_have_title("Automation Exercise")
-
+def test_verify_all_products_and_product_detail_page(page: Page, home):
     # navigate to the products page
-    page.locator(".shop-menu").get_by_role("link", name="Products").click()
+    products_page = home.header.go_to_products_page()
 
     # assert that the products page is visible successfully
     expect(page).to_have_url("/products")
@@ -19,7 +15,7 @@ def test_verify_all_products_and_product_detail_page(page: Page):
     expect(products.first).to_be_visible()
 
     # open the first product detail page
-    products.first.get_by_role("link", name="View Product").click()
+    products_page.view_product_details_of_nth_product(0)
 
     # assert that the product detail is visible successfully
     expect(page).to_have_url("/product_details/1")
@@ -32,18 +28,15 @@ def test_verify_all_products_and_product_detail_page(page: Page):
     expect(product_information.get_by_text("Brand:")).to_be_visible()
 
 
-def test_search_product(page: Page):
+def test_search_product(page: Page, home):
     search_term = "top"
 
     # open the products page
-    page.goto("/")
-    expect(page).to_have_title("Automation Exercise")
-    page.get_by_role("link", name="Products").click()
+    products_page = home.header.go_to_products_page()
     expect(page).to_have_url("/products")
 
     # search for a product
-    page.get_by_role("textbox", name="Search Product").fill(search_term)
-    page.locator("#submit_search").click()
+    products_page.search_products(search_term)
 
     # assert that the searched products page is visible successfully
     expect(page.get_by_role("heading", name="Searched Products")).to_be_visible()
