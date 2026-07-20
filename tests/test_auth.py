@@ -1,14 +1,12 @@
 from playwright.sync_api import expect, Page
 
 
-def test_register_user(page: Page, home):
+def test_register_user(page: Page, home, dummy_email, user_data):
     # open the homepage and navigate to the signup page
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the signup form and submit it
-    signup_detail_page = login_signup_page.signup(
-        "Febri Haryono", "febriharyono@gmail.com"
-    )
+    signup_detail_page = login_signup_page.signup(user_data["name"], dummy_email)
 
     # assert that signup details page is visible
     expect(page.get_by_text("Enter Account Information")).to_be_visible()
@@ -35,12 +33,12 @@ def test_register_user(page: Page, home):
     delete_account_page.continue_after_account_deletion()
 
 
-def test_login_user_with_correct_email_and_password(page: Page, home):
+def test_login_user_with_correct_email_and_password(page: Page, home, credentials):
     # open the homepage and navigate to the login page
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the login form and submit it
-    login_signup_page.login("ngadionocr@gmail.com", "N@wadata99$$")
+    login_signup_page.login(credentials['email'], credentials['password'])
 
     # assert that user is logged in successfully
     expect(page.get_by_text("Logged in as")).to_be_visible()
@@ -58,12 +56,12 @@ def test_login_user_with_incorrect_email_and_password(page: Page, home):
     expect(page.get_by_text("Your email or password is")).to_be_visible()
 
 
-def test_logout_user(page: Page, home):
+def test_logout_user(page: Page, home, credentials):
     # open the homepage and navigate to the login page
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the login form and submit it
-    login_signup_page.login("ngadionocr@gmail.com", "N@wadata99$$")
+    login_signup_page.login(credentials['email'], credentials['password'])
 
     # assert that user is logged in successfully
     expect(page.get_by_text("Logged in as")).to_be_visible()
@@ -74,12 +72,12 @@ def test_logout_user(page: Page, home):
     expect(page.get_by_role("link", name="Signup / Login")).to_be_visible()
 
 
-def test_register_user_with_existing_email(page: Page, home):
+def test_register_user_with_existing_email(page: Page, home, credentials):
     # open the homepage and navigate to the signup page
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the signup form and submit it
-    login_signup_page.signup("Febri Haryono", "ngadionocr@gmail.com")
+    login_signup_page.signup(credentials['existing_name'], credentials['existing_email'])
 
     # assert that an error message is displayed for existing email
     expect(page.get_by_text("Email Address already exist!")).to_be_visible()
