@@ -3,6 +3,7 @@ from tests.pages.login_signup_page import LoginSignupPage
 from tests.pages.delete_account_page import DeleteAccountPage
 from tests.pages.products_page import ProductsPage
 from tests.pages.contact_us_page import ContactUsPage
+from tests.pages.cart_page import CartPage
 
 
 class Header:
@@ -33,3 +34,7 @@ class Header:
 
     def go_to_cart_page(self):
         self.page.locator(".shop-menu").get_by_role("link", name="Cart").click()
+        return CartPage(self.page)
+
+    def is_logged_in(self):
+        return self.page.get_by_role("link", name="Logout").is_visible()

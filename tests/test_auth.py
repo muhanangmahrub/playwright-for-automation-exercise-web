@@ -38,7 +38,7 @@ def test_login_user_with_correct_email_and_password(page: Page, home, credential
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the login form and submit it
-    login_signup_page.login(credentials['email'], credentials['password'])
+    login_signup_page.login(credentials["email"], credentials["password"])
 
     # assert that user is logged in successfully
     expect(page.get_by_text("Logged in as")).to_be_visible()
@@ -61,7 +61,7 @@ def test_logout_user(page: Page, home, credentials):
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the login form and submit it
-    login_signup_page.login(credentials['email'], credentials['password'])
+    login_signup_page.login(credentials["email"], credentials["password"])
 
     # assert that user is logged in successfully
     expect(page.get_by_text("Logged in as")).to_be_visible()
@@ -77,7 +77,9 @@ def test_register_user_with_existing_email(page: Page, home, credentials):
     login_signup_page = home.header.go_to_login_signup_page()
 
     # fill out the signup form and submit it
-    login_signup_page.signup(credentials['existing_name'], credentials['existing_email'])
+    login_signup_page.signup(
+        credentials["existing_name"], credentials["existing_email"]
+    )
 
     # assert that an error message is displayed for existing email
     expect(page.get_by_text("Email Address already exist!")).to_be_visible()

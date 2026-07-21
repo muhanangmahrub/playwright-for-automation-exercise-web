@@ -15,7 +15,7 @@ def test_verify_all_products_and_product_detail_page(page: Page, home):
     expect(products.first).to_be_visible()
 
     # open the first product detail page
-    products_page.view_product_details_of_nth_product(0)
+    products_page.products.view_product_details_of_nth_product(0)
 
     # assert that the product detail is visible successfully
     expect(page).to_have_url("/product_details/1")
@@ -36,7 +36,7 @@ def test_search_product(page: Page, home):
     expect(page).to_have_url("/products")
 
     # search for a product
-    products_page.search_products(search_term)
+    products_page.products.search_products(search_term)
 
     # assert that the searched products page is visible successfully
     expect(page.get_by_role("heading", name="Searched Products")).to_be_visible()

@@ -45,8 +45,8 @@ def credentials():
     return {
         "email": os.environ["EMAIL_LOGIN"],
         "password": os.environ["PASSWORD_LOGIN"],
-        "existing_name": os.environ['EXISTING_NAME'],
-        'existing_email': os.environ['EXISTING_EMAIL']
+        "existing_name": os.environ["EXISTING_NAME"],
+        "existing_email": os.environ["EXISTING_EMAIL"],
     }
 
 
@@ -68,4 +68,18 @@ def dummy_email():
 
 @pytest.fixture
 def user_data(faker):
-    return {"name": faker.name()}
+    next_year = datetime.datetime.now().year + 2
+    return {
+        "name": str(faker.name()),
+        "card_number": str(faker.credit_card_number()),
+        "cvc": str(faker.credit_card_security_code()),
+        "month": str(faker.month()),
+        "year": str(next_year),
+    }
+
+
+@pytest.fixture
+def cleanup_account(home):
+    yield
+    if home.header.is_logged_in():
+        home.header.delete_account()
